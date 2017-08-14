@@ -4,6 +4,7 @@ import javax.annotation.Generated
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.validation.constraints.Min
 
 @Entity
 class Girl {
@@ -11,6 +12,7 @@ class Girl {
     @GeneratedValue
     Integer id
     String name
+    @Min(value = 18l, message = "未成年不得入内")
     Integer age
 
     Integer getId() {

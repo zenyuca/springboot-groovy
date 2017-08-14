@@ -4,13 +4,17 @@ import club.zenyuca.common.result.ResultUtil
 import club.zenyuca.entity.Girl
 import club.zenyuca.common.result.Result
 import club.zenyuca.service.GirlService
+import org.hibernate.cfg.BinderHelper
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RestController
+
+import javax.validation.Valid
 
 @RestController
 class GirlController {
@@ -30,7 +34,10 @@ class GirlController {
     }
 
     @PostMapping(value = "/girl")
-    Result addGirl(Girl girl) {
+    Result addGirl(@Valid Girl girl, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.error(100, bindingResult.getFieldError().getDefaultMessage())
+        }
         return ResultUtil.success(this.girlService.addGirl(girl))
     }
 
